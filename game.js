@@ -23,25 +23,30 @@ let isDragging = false;
 let ground;
 
 function preload () {
-    // No assets to load yet
+    this.load.image('background', 'assets/background.png');
+    this.load.image('bird', 'assets/hatchling.png');
 }
 
 function create () {
-    // Create the ground
-    ground = this.add.rectangle(400, 580, 800, 40, 0x654321);
-    this.physics.add.existing(ground, true); // true for static
+    // Add the background
+    this.add.image(400, 300, 'background');
+
+    // Create an invisible ground
+    ground = this.add.rectangle(400, 580, 800, 40, 0x000000, 0); // Last param is alpha
+    this.physics.add.existing(ground, true);
 
     // Create the bird
-    bird = this.add.circle(100, 450, 20, 0xff0000);
-    this.physics.add.existing(bird);
+    bird = this.physics.add.sprite(100, 450, 'bird');
+    bird.setScale(0.2); // Slightly larger bird
     bird.body.setCollideWorldBounds(true);
-    bird.body.setBounce(0.5);
+    bird.body.setBounce(0.4);
+    bird.body.setCircle(bird.width / 3, bird.width / 6, bird.height / 6); // Adjust physics body
 
     // Add collision between bird and ground
     this.physics.add.collider(bird, ground);
 
-    // Create a target
-    const target = this.add.rectangle(600, 500, 50, 100, 0x00ff00);
+    // Create a target crate
+    const target = this.add.rectangle(600, 500, 60, 60, 0x8B4513); // Brown color for a crate
     this.physics.add.existing(target);
     target.body.setCollideWorldBounds(true);
 
